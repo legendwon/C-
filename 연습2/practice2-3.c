@@ -20,4 +20,44 @@ S             87                   92                 
 */
 
 #include <stdio.h>
+#include <ctype.h>
 
+static void dump_stdin_rest(const char *tag) {
+    int ch;
+    printf("<< %s: pending >> ", tag);
+    while ((ch = getchar()) != '\n' && ch != EOF) {
+        printf("%02X('%c') ", (unsigned char)ch, isprint(ch) ? ch : '.');
+    }
+    puts(ch == '\n' ? "[\\n consumed]" : "[EOF]");
+}
+
+int main(){
+    int E =0;
+    int K =0;
+    char name;
+    int t =0;
+    float avg = 0;
+
+    printf("ENG:");
+    dump_stdin_rest("1");
+    scanf("%d",&E);
+    dump_stdin_rest("1");
+    // 버퍼오버플로우 방지 추가
+    printf("KOR:");
+    scanf("%d",&K);
+     dump_stdin_rest("2");
+    printf("NAME:");
+    scanf(" %c",&name);
+      dump_stdin_rest("3");
+
+    t = K + E;
+    avg = t /2;
+
+    printf("%-8s %12s %12s %12s %12s\n", "NAME", "ENGLISH", "KOREAN", "TOTAL", "AVERAGE");
+    printf("%-8s %12s %12s %12s %12s\n", "",      "SCORE",   "SCORE",  "SCORE", "SCORE");
+    // 구분선
+    printf("---------------------------------------------------------------------\n");
+    // 데이터 행
+    printf("%-8c %12d %12d %12d %12.2f\n", name, E, K, t, avg);
+
+}

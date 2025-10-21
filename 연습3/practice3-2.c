@@ -8,9 +8,29 @@
 */
 
 
+#include <stdio.h>
 
+int main(){
+    int a = 0;
+    int b =0;
+    int c =0;
+    int d =0;
+    int e =0;
 
+    printf("점수 입력: ");
+    scanf("%d",&a);
+    printf("점수 입력: ");
+    scanf("%d",&b);
+    printf("점수 입력: ");
+    scanf("%d",&c);
+    printf("점수 입력: ");
+    scanf("%d",&d);
+    printf("점수 입력: ");
+    scanf("%d",&e);
 
+    
+
+}
 
 
 
