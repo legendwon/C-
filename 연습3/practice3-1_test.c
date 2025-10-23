@@ -32,7 +32,7 @@ int main(){
     printf("숫자 입력:");
     scanf("%d",&num);
 
-    int first = 3 << 15 ;
+    int first = 7 << 15 ;
     int second = 7 << 12;
     int third = 7 << 9;
     int fourth = 7 << 6;
