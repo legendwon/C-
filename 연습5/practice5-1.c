@@ -29,9 +29,16 @@ int main(){
 
     //8진수로 변환하기
 
-    
-    
-
+    int a =0;
+    int two_num =0;
+    int move =0;
+    while (true)
+    {
+        two_num = 7 << move
+        a = 
+        if (two_num<factorial){   
+        }
+    }
 }
 
 
