@@ -18,8 +18,8 @@
 void octal_bit(int num) {
     if (num == 0) return;
     
-    octal_bit(num >> 3);  // 3비트 시프트
-    printf("%d", num & 7);  // 하위 3비트
+    octal_bit(num >> 3);  // 3비트 시프트 -> 8로 나누기
+    printf("%d", num & 7);  // 하위 3비트 -> 나머지
 }
 
 int main(){
@@ -42,6 +42,4 @@ int main(){
         printf("0");
     else 
         octal_bit(factorial);
-
-
 }
