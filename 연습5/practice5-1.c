@@ -15,11 +15,18 @@
 #include <stdlib.h> // srand, rand를 사용하기 위한 헤더 파일
 #include <time.h> // time을 활용하기 위해서
 
+void octal_bit(int num) {
+    if (num == 0) return;
+    
+    octal_bit(num >> 3);  // 3비트 시프트
+    printf("%d", num & 7);  // 하위 3비트
+}
+
 int main(){
     srand(time(NULL)); //시간을 seed로 넣어 난수 초기화
     int random = rand() % 10 + 10; //10~20 사이의 랜덤 숫자
     printf("DEBUG:%d\n",random); // 디버깅용도
-    long long int factorial = 0; // 혹시 20!를 하면 넘치지 않을까?
+    int factorial = 1; // 혹시 20!를 하면 넘치지 않을까?
 
     for (int i=random; i>0; i--){
         factorial *= i;
@@ -29,16 +36,12 @@ int main(){
 
     //8진수로 변환하기
 
-    int a =0;
-    int two_num =0;
-    int move =0;
-    while (true)
-    {
-        two_num = 7 << move
-        a = 
-        if (two_num<factorial){   
-        }
-    }
+    printf("8진수: ");
+    
+    if (factorial == 0) 
+        printf("0");
+    else 
+        octal_bit(factorial);
+
+
 }
-
-
