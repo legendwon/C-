@@ -52,6 +52,8 @@ int main(){
         break;
     }
     case '/':{
+        // 분모가 0인 것을 고려하지 않음.
+        // 추가할 것
        float r = num1 / num2;
         if (r == (int)r){
             printf("%d\n", (int)r);
