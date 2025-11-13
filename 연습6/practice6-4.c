@@ -20,140 +20,97 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Merge 함수
-void merge(int arr[], int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
-    
-    // 임시 배열
-    int L[n1], R[n2];
-    
-    // 데이터 복사
-    for (int i = 0; i < n1; i++) {
-        L[i] = arr[left + i];
-    }
-    for (int j = 0; j < n2; j++) {
-        R[j] = arr[mid + 1 + j];
-    }
-    
-    // 병합
-    int i = 0, j = 0, k = left;
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-    
-    // 남은 요소 복사
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-}
+#define A 0
+#define B 1
+#define NUM 20
+#define GROUP 2
 
-// Merge Sort 함수
-void mergeSort(int arr[], int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2;
+int main(void)
+{
+    int group[GROUP][NUM], avail[GROUP]={0,};
+    int merge[NUM], avail_m=0;
+    int num, i, j, k, tmp;
+    
+    // 난수 생성기 초기화
+    srand((unsigned)time(NULL));
+    
+    printf("========== 무작위 숫자 생성 및 분류 ==========\n");
+    // 20개의 무작위 숫자 생성 및 홀수/짝수 분류
+    for(i=0; i<NUM; i++)
+    {
+        num = rand() % 100 + 1;  // 1~100 사이의 숫자
+        printf("%d ", num);
         
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
-        merge(arr, left, mid, right);
-    }
-}
-
-// 두 정렬된 배열을 merge
-void mergeGroups(int A[], int sizeA, int B[], int sizeB) {
-    int i = 0, j = 0;
-    
-    printf("\nMerged (A + B): ");
-    
-    // 두 배열을 비교하면서 작은 것부터 출력
-    while (i < sizeA && j < sizeB) {
-        if (A[i] <= B[j]) {
-            printf("%d ", A[i]);
-            i++;
-        } else {
-            printf("%d ", B[j]);
-            j++;
-        }
-    }
-    
-    // A 배열의 남은 요소 출력
-    while (i < sizeA) {
-        printf("%d ", A[i]);
-        i++;
-    }
-    
-    // B 배열의 남은 요소 출력
-    while (j < sizeB) {
-        printf("%d ", B[j]);
-        j++;
-    }
-    
-    printf("\n");
-}
-
-int main() {
-    int numbers[20];
-    int groupA[20];  // 홀수 그룹
-    int groupB[20];  // 짝수 그룹
-    int countA = 0, countB = 0;
-    
-    srand(time(NULL));
-    
-    printf("생성된 20개의 수:\n");
-    
-    // 20개의 랜덤 수 생성 및 그룹 분류
-    for (int i = 0; i < 20; i++) {
-        numbers[i] = rand() % 100 + 1;  // 1~100
-        printf("%d ", numbers[i]);
-        
-        if (numbers[i] % 2 == 1) {
-            groupA[countA++] = numbers[i];  // 홀수
-        } else {
-            groupB[countB++] = numbers[i];  // 짝수
-        }
+        if(num % 2)  // 홀수
+            group[A][avail[A]++] = num;
+        else  // 짝수
+            group[B][avail[B]++] = num;
     }
     printf("\n\n");
     
-    // 그룹 A를 Merge Sort로 정렬
-    if (countA > 0) {
-        mergeSort(groupA, 0, countA - 1);
+    // 각 그룹을 버블 정렬로 오름차순 정렬
+    printf("========== 각 그룹 정렬 ==========\n");
+    for(k=0; k<GROUP; k++)  // k:0 홀수 그룹, k:1 짝수 그룹
+    {
+        for(i=0; i<avail[k]-1; i++)  // 정렬
+        {
+            for(j=i+1; j<avail[k]; j++)
+            {
+                if(group[k][i] > group[k][j])
+                {
+                    tmp = group[k][i];
+                    group[k][i] = group[k][j];
+                    group[k][j] = tmp;
+                }
+            }
+        }
     }
     
-    // 그룹 B를 Merge Sort로 정렬
-    if (countB > 0) {
-        mergeSort(groupB, 0, countB - 1);
-    }
-    
-    // 그룹 A 출력
-    printf("Group A (홀수): ");
-    for (int i = 0; i < countA; i++) {
-        printf("%d ", groupA[i]);
+    // 정렬된 각 그룹 출력
+    for(k=0; k<GROUP; k++)  // 각 정렬된 그룹 출력
+    {
+        printf("Group_%c (%d개): ", 'A'+k, avail[k]);
+        for(i=0; i<avail[k]; i++)
+            printf("%d ", group[k][i]);
+        printf("\n");
     }
     printf("\n");
     
-    // 그룹 B 출력
-    printf("Group B (짝수): ");
-    for (int i = 0; i < countB; i++) {
-        printf("%d ", groupB[i]);
+    // MERGE: 정렬된 두 그룹을 병합
+    printf("========== Merge 알고리즘 적용 ==========\n");
+    int current_a=0, current_b=0;
+    
+    // 두 그룹 모두 남아있는 경우
+    while(current_a < avail[A] && current_b < avail[B])
+    {
+        if(group[A][current_a] > group[B][current_b])
+            merge[avail_m++] = group[B][current_b++];
+        else
+            merge[avail_m++] = group[A][current_a++];
+    }
+    
+    // 첫 번째 그룹이 끝난 경우, 두 번째 그룹의 나머지 복사
+    if(current_a >= avail[A])
+    {
+        for(i=current_b; i<avail[B]; i++)
+            merge[avail_m++] = group[B][i];
+    }
+    // 두 번째 그룹이 끝난 경우, 첫 번째 그룹의 나머지 복사
+    else if(current_b >= avail[B])
+    {
+        for(i=current_a; i<avail[A]; i++)
+            merge[avail_m++] = group[A][i];
+    }
+    
+    // 최종 병합된 리스트 출력
+    printf("Merged List (전체 %d개, 오름차순):\n", avail_m);
+    for(i=0; i<avail_m; i++)
+    {
+        printf("%d ", merge[i]);
+        if((i+1) % 10 == 0)  // 10개씩 줄바꿈
+            printf("\n");
     }
     printf("\n");
-    
-    // Merge: 정렬된 두 그룹을 합치기
-    mergeGroups(groupA, countA, groupB, countB);
     
     return 0;
 }

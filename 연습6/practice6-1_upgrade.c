@@ -76,7 +76,7 @@ int main(){
     int grade[10];
 
     for (int i=0; i<<10; i++){
-        grade[i] =i;
+        grade[i] =i; // i =0 -> 0이 들어가는데, F라고 생각, i=9 -> A라고 생각
     }
 
 
@@ -115,25 +115,6 @@ int main(){
         mergesort(list, mid+1, right)-> 똑같이 후반부를 정렬하고
         merge(list, left, mid, right) -> 합병한다.
     */
-
-    for (int i=9; i>=0; i--){
-        if (original_group[i] == group[9-i];)
-        {
-            [i] == group[9-i];
-        int k= 65+i;
-        printf("%c:%d\n",k, original_group[i]);
-        }
-    }
-
-
-    for (int i=0; i<10; i++){
-        for(int j=0; j<10; j++){
-            if(original_group[9-i]==group[9-j]){
-                
-            }
-        }
-    }
-
 
 
 }
