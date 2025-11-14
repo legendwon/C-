@@ -56,6 +56,51 @@ void duplicate(int arr[][4],int count){
         }
     }
 
+void mid_cal( int arr[][4],int count){
+    //1,2,3
+    // 오름차순으로
+    for(int i=1; i<4; i++){
+        for(int j=1; j<4-1; j++){
+            if (arr[count][j]>= arr[count][j+1]){
+                int temp = arr[count][j];
+                arr[count][j] = arr[count][j+1];
+                arr[count][j+1] = temp;
+            }
+        }
+    }
+}
+
+int avg_cal(int arr[][4], int count){
+    int temp = 0;
+
+    for(int i=0; i<count; i++){
+        temp = arr[i][2];
+    }
+
+    return temp;
+}
+
+
+void rank(int arr[][4],int count){
+    //0: 이름
+    // 1,2,3 -> 점수 인데 2만 쓰기로함.
+
+    // 0의 2
+    // 1의 2 ...이런 식으로 비교
+    for(int i=0; i<5; i++){
+        for(int j=0; j<5-1-i; j++){
+            //내림차순으로
+            if(arr[j][2]<arr[j+1][2]){
+                for(int z=0; z<4; z++){
+                    int temp = arr[j][z];
+                    arr[j][z] = arr[j+1][z];
+                    arr[j+1][z] = temp;
+                }
+            }
+        }
+    }
+
+}
 
 
 
@@ -63,6 +108,7 @@ int main(){
 
     int student[6][4] = {0};
     srand((unsigned)time(NULL));
+    double avg =0;
 
     for(int i=0; i<5; i++){
         char name;
@@ -84,6 +130,29 @@ int main(){
             printf("%d\n",student[i][j]);
         }
     }
+
+     for (int i = 0; i < 5; i++)
+    {
+        mid_cal(student,i);
+    }
+
+    avg = avg_cal(student,4);
+
+    rank(student,5);
+
+
+    int current_rank = 1;
+    for(int i=0; i<5; i++){
+        // 동점자 처리
+        if(i > 0 && student[i][2] != student[i-1][2]){
+            current_rank = i + 1;
+        }
+        printf("%d\t%c\t%d\n", current_rank, student[i][0], student[i][2]);
+    }
+    
+    printf("---------------------------\n");
+    printf("전체 평균: %.2f\n", avg);
+
 }
 
 
