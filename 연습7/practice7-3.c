@@ -86,9 +86,21 @@ void merge(int arr[],int left, int mid, int right){
 void merge_sort(int arr[], int left, int right){
     if (left<right){
         int mid = left + (right-left) /2;
+        // 중간으로 나누고
         merge_sort(arr,left,mid);
+        // 반으로 나눈 첫 번째
         merge_sort(arr,mid+1, right);
+        // 반으로 나눈 두 번째
         merge(arr,left,mid,right);
+        // merge를 한다.
+
+        //재귀함수에 따르게 되면
+        // 1/1 개가 되기 전까지 계속 나뉘게 될 것
+        /*
+        ex) 1,4,3,2,5
+        -> 1,4,3
+        -> 2,5
+        */
 
     }
     
